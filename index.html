@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Hades Design concept demo: keep out of search engines until the customer approves production. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f4f1e9" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%favicon-32.png" />
+    <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
+    <title>Autokorjaamo Joensuu – huolto, korjaus ja vianselvitys | Tojoko Oy</title>
+    <meta
+      name="description"
+      content="Tojoko Oy huoltaa ja korjaa autoja Joensuun Aspitiellä ja selvittää myös hankalat viat. Avoinna ma–pe 8–17 – soita 040 169 5277 tai jätä aikapyyntö."
+    />
+    <script>
+      // Runs before first paint: enables progressive reveals and, on a fresh load of the
+      // homepage, the CSS-only "Kaikki paikallaan" intro (never with reduced motion).
+      ;(function () {
+        try {
+          var d = document.documentElement
+          d.classList.add('js')
+          var base = '%BASE_URL%'
+          var p = location.pathname
+          var home = p === base || p + '/' === base || p === base + 'index.html'
+          var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          if (home && !rm) d.classList.add('intro')
+          // Failsafe: if the app never boots, show all content in its final state.
+          setTimeout(function () {
+            if (!window.__tojokoReady) {
+              d.classList.remove('js')
+              d.classList.remove('intro')
+            }
+          }, 4000)
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

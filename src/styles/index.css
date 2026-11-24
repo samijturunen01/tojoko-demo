@@ -1,0 +1,579 @@
+@import 'tailwindcss';
+
+/*
+ * "Varjotaulu" (shadow board) – Tojoko's visual language.
+ * A workshop tool wall: petrol pegboard, painted tool outlines that show where everything
+ * belongs, warm paper-white walls and signal yellow for the one thing you should do next.
+ */
+@theme {
+  --color-paper: #f4f1e9;
+  --color-paper-2: #ebe6da;
+  --color-paper-3: #ddd5c3;
+  --color-ink: #151918;
+  --color-ink-2: #29302e;
+  --color-muted: #545d5b;
+  --color-petrol: #0f3b3f;
+  --color-petrol-2: #154a4f;
+  --color-petrol-3: #1d5f65;
+  --color-petrol-deep: #0a2b2e;
+  --color-teal: #2f7f87;
+  --color-mist: #b5cbc9;
+  --color-yellow: #ffc933;
+  --color-yellow-2: #ffd967;
+  --color-rust: #b5401f;
+
+  --font-display: 'Gabarito Variable', 'Gabarito', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Rethink Sans Variable', 'Rethink Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --ease-hang: cubic-bezier(0.3, 1.45, 0.45, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* No scroll-padding here: it makes browsers scroll the page when a sticky header link
+       receives focus. Anchor targets use scroll-margin-top instead. */
+    background: var(--color-paper);
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-yellow);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-petrol-3);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-yellow);
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  /* ---------- Layout ---------- */
+  .wrap {
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .wrap {
+      padding-inline: 3rem;
+    }
+  }
+
+  /* ---------- Type helpers ---------- */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .display-xl {
+    font-size: clamp(2.6rem, 1.6rem + 4.6vw, 5.6rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+  .display-l {
+    font-size: clamp(2.1rem, 1.4rem + 3vw, 4rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .display-m {
+    font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.5rem);
+    font-weight: 750;
+    line-height: 1.05;
+  }
+  .lead {
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+    line-height: 1.55;
+  }
+  .prose-tojoko p + p {
+    margin-top: 1em;
+  }
+
+  /* ---------- Buttons (key-tag shaped: rounded, with a punched hole on the primary) ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.1rem;
+    padding: 0.75rem 1.35rem;
+    border-radius: 0.9rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.04rem;
+    line-height: 1.15;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s,
+      transform 0.25s var(--ease-out-soft),
+      box-shadow 0.25s;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+  .btn svg {
+    width: 1.2em;
+    height: 1.2em;
+    flex: none;
+  }
+  .btn--primary {
+    position: relative;
+    background: var(--color-yellow);
+    color: var(--color-ink);
+    padding-left: 2.35rem;
+    box-shadow: 0 2px 0 rgb(21 25 24 / 0.9);
+  }
+  /* the punched hole of a key tag */
+  .btn--primary::before {
+    content: '';
+    position: absolute;
+    left: 0.95rem;
+    top: 50%;
+    width: 0.62rem;
+    height: 0.62rem;
+    margin-top: -0.31rem;
+    border-radius: 50%;
+    background: var(--color-paper);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.45);
+  }
+  .on-dark .btn--primary::before {
+    background: var(--color-petrol);
+  }
+  .btn--primary:hover {
+    background: var(--color-yellow-2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 rgb(21 25 24 / 0.9);
+  }
+  .btn--primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 rgb(21 25 24 / 0.9);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  .btn--ghost:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .btn--light {
+    background: transparent;
+    color: var(--color-paper);
+    border-color: rgb(244 241 233 / 0.7);
+  }
+  .btn--light:hover {
+    background: var(--color-paper);
+    color: var(--color-petrol);
+    border-color: var(--color-paper);
+  }
+  .btn--petrol {
+    background: var(--color-petrol);
+    color: var(--color-paper);
+  }
+  .btn--petrol:hover {
+    background: var(--color-petrol-3);
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.28em;
+    text-decoration-color: var(--color-yellow);
+    transition: gap 0.2s;
+  }
+  .link-arrow:hover {
+    gap: 0.75rem;
+  }
+
+  /* ---------- Surfaces ---------- */
+  .pegboard {
+    background-color: var(--color-petrol);
+    background-image:
+      radial-gradient(circle at 50% 56%, rgb(255 255 255 / 0.07) 2.6px, transparent 3.1px),
+      radial-gradient(circle at 50% 50%, rgb(3 18 20 / 0.62) 2.5px, transparent 2.95px);
+    background-size: 24px 24px;
+    background-position: 12px 12px;
+    color: var(--color-paper);
+  }
+  .pegboard--deep {
+    background-color: var(--color-petrol-deep);
+  }
+  .paper-rule {
+    background-image: linear-gradient(to right, rgb(21 25 24 / 0.12) 1px, transparent 1px);
+    background-size: calc(100% / 12) 100%;
+  }
+
+  /* Painted shadow outline (shadow-board paint) */
+  .shadow-paint {
+    fill: none;
+    stroke: var(--color-yellow);
+    stroke-width: 3;
+    stroke-linejoin: round;
+    opacity: 0.85;
+  }
+
+  /* ---------- Illustrative photo badge ---------- */
+  .photo-badge {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.55rem;
+    border-radius: 0.4rem;
+    background: rgb(21 25 24 / 0.78);
+    color: #f4f1e9;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* ---------- Key tag (symptom picker + form preview) ---------- */
+  .keytag {
+    position: relative;
+    border-radius: 1.1rem 1.1rem 1.1rem 1.1rem;
+    transform-origin: 50% 0.9rem;
+  }
+  .keytag__hole {
+    position: absolute;
+    top: 0.7rem;
+    left: 50%;
+    width: 0.95rem;
+    height: 0.95rem;
+    margin-left: -0.475rem;
+    border-radius: 50%;
+    background: var(--color-paper);
+    box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.5);
+  }
+
+  /* ---------- Form ---------- */
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .field label,
+  .field legend {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .input {
+    width: 100%;
+    min-height: 3.1rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0.7rem;
+    border: 2px solid rgb(21 25 24 / 0.55);
+    background: #fffdf8;
+    color: var(--color-ink);
+    font: inherit;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+  .input:hover {
+    border-color: var(--color-ink);
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--color-petrol-3);
+    box-shadow: 0 0 0 3px rgb(29 95 101 / 0.35);
+  }
+  .input[aria-invalid='true'] {
+    border-color: var(--color-rust);
+  }
+  textarea.input {
+    min-height: 8rem;
+    resize: vertical;
+  }
+  .field-error {
+    color: var(--color-rust);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.9rem;
+    padding: 0.55rem 1rem 0.55rem 0.85rem;
+    border-radius: 0.8rem;
+    border: 2px solid rgb(21 25 24 / 0.5);
+    background: #fffdf8;
+    font-family: var(--font-display);
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
+  }
+  .chip:hover {
+    border-color: var(--color-ink);
+  }
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .chip__dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    flex: none;
+  }
+  .chip:has(input:checked) {
+    background: var(--color-petrol);
+    border-color: var(--color-petrol);
+    color: var(--color-paper);
+  }
+  .chip:has(input:checked) .chip__dot {
+    background: var(--color-yellow);
+    border-color: var(--color-yellow);
+  }
+  .chip:has(input:focus-visible) {
+    outline: 3px solid var(--color-petrol-3);
+    outline-offset: 3px;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary .faq__icon {
+    transition: transform 0.3s var(--ease-out-soft);
+  }
+  .faq details[open] summary .faq__icon {
+    transform: rotate(45deg);
+  }
+}
+
+/* ---------- Progressive reveals (only when JS runs; content is visible without it) ---------- */
+html.js [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(1.1rem);
+}
+html.js [data-reveal] {
+  transition:
+    opacity 0.7s var(--ease-out-soft),
+    transform 0.7s var(--ease-out-soft);
+}
+html.js [data-reveal='hang']:not(.is-in) {
+  opacity: 0;
+  transform: translateY(-0.9rem) rotate(-2.5deg);
+}
+html.js [data-reveal='hang'] {
+  transform-origin: 50% 0;
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.9s var(--ease-hang);
+}
+
+/* ======================================================================
+ * Signature homepage intro – "Kaikki paikallaan" (everything in its place)
+ * The TOJOKO wordmark hangs onto the pegboard like tools onto their painted
+ * shadows. Starts from the `intro` class set in index.html before first paint
+ * (fresh homepage load / refresh only, never with reduced motion). The H1 and
+ * CTAs are never part of it, so nothing waits for the animation.
+ * ==================================================================== */
+.hb-shadow {
+  fill: none;
+  stroke: var(--color-yellow);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  opacity: 0.55;
+}
+.hb-letter {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  fill: var(--color-paper);
+}
+.hb-ok {
+  fill: var(--color-yellow);
+}
+.hb-tool {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+.hb-status {
+  opacity: 1;
+}
+
+html.intro .hb-shadow {
+  stroke-dasharray: 1;
+  animation: hb-paint 0.75s 0.05s var(--ease-out-soft) both;
+}
+html.intro .hb-letter {
+  animation: hb-hang 0.85s var(--ease-hang) both;
+  animation-delay: calc(0.5s + var(--i, 0) * 85ms);
+}
+html.intro .hb-ok {
+  animation:
+    hb-hang 0.85s var(--ease-hang) both,
+    hb-ok 0.45s 1.55s ease-out both;
+  animation-delay: calc(0.5s + var(--i, 0) * 85ms), 1.55s;
+}
+html.intro .hb-tool {
+  animation: hb-swing 1.5s 0.35s ease-out both;
+}
+html.intro .hb-status {
+  animation: hb-status 0.5s 1.75s ease-out both;
+}
+
+@keyframes hb-paint {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.55;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+}
+@keyframes hb-hang {
+  from {
+    opacity: 0;
+    transform: translateY(-34px) rotate(-8deg);
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hb-ok {
+  from {
+    fill: var(--color-paper);
+  }
+  to {
+    fill: var(--color-yellow);
+  }
+}
+@keyframes hb-swing {
+  0% {
+    transform: rotate(18deg);
+  }
+  28% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  70% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes hb-status {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Symptom key tags swing when chosen (CSS fallback; GSAP adds a physical swing) */
+@keyframes tag-swing {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-6deg);
+  }
+  55% {
+    transform: rotate(3deg);
+  }
+  80% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+/* Mobile call bar spacing */
+@media (max-width: 1023.98px) {
+  body {
+    padding-bottom: 4.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js [data-reveal]:not(.is-in) {
+    opacity: 1;
+    transform: none;
+  }
+}

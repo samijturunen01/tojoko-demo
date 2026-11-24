@@ -1,0 +1,14 @@
+{
+  "_note": "Conceptual TOJOKO wordmark by Hades Design (no authentic logo exists). The three O's are sockets with hex counters (fill-rule evenodd). Requires customer approval before production use. viewBox: 0 -2 591 104.",
+  "viewBox": "0 -2 591 104",
+  "width": 591,
+  "height": 104,
+  "letters": [
+    { "char": "T", "x": 40, "d": "M0 0H80V24H52V100H28V24H0Z" },
+    { "char": "O", "x": 143, "d": "M92 50A51 51 0 1 0 194 50A51 51 0 1 0 92 50ZM143 26L163.78 38L163.78 62L143 74L122.22 62L122.22 38Z" },
+    { "char": "J", "x": 256, "d": "M244 0H268V64C268 86 254 100 234 100C218 100 208 92 206 78L228 72C230 78 233 80 237 80C241 80 244 76 244 70Z" },
+    { "char": "O", "x": 331, "ok": true, "d": "M280 50A51 51 0 1 0 382 50A51 51 0 1 0 280 50ZM331 26L351.78 38L351.78 62L331 74L310.22 62L310.22 38Z" },
+    { "char": "K", "x": 406, "ok": true, "d": "M394 0H418V42L446 0H475L437 53L477 100H448L418 62V100H394Z" },
+    { "char": "O", "x": 540, "d": "M489 50A51 51 0 1 0 591 50A51 51 0 1 0 489 50ZM540 26L560.78 38L560.78 62L540 74L519.22 62L519.22 38Z" }
+  ]
+}
