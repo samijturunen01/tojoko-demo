@@ -19,11 +19,6 @@ export function Layout() {
       </a>
       <ScrollManager />
       <Seo />
-      {/* One line at every width (a font swap must not re-wrap it and shift the page). */}
-      <p className="overflow-hidden whitespace-nowrap bg-ink px-4 py-1.5 text-center font-[family-name:var(--font-mono)] text-[0.68rem] uppercase leading-5 tracking-[0.08em] text-paper/85 sm:text-[0.7rem] sm:tracking-[0.1em]">
-        <span className="sm:hidden">Konseptidemo – ei virallinen sivusto</span>
-        <span className="hidden sm:inline">Konseptidemo · Hades Design – ei Tojoko Oy:n virallinen sivusto</span>
-      </p>
       <Header />
       <main id="sisalto" tabIndex={-1} className="outline-none">
         <Outlet />

@@ -49,7 +49,7 @@ Etusivu · Palvelut · Autohuolto · Autokorjaukset · Vianselvitys · Korjaamo 
 ## Fixed during QA
 
 - `scroll-padding-top` on `<html>` made the page jump when a sticky-header link was focused/clicked → removed (anchors use scroll-margin)
-- Demo strip re-wrapped on font swap (mobile CLS 0.07) → single line at every width; body font preloaded
+- Demo strip re-wrapped on font swap (mobile CLS 0.07) → single line at every width; body font preloaded (strip later removed 24.11.2026 – demo disclaimer now only in footer and form)
 - Label-in-name (WCAG 2.5.3) mismatches on the logo link and mobile call bar → fixed
 
 ## Known issues / notes
