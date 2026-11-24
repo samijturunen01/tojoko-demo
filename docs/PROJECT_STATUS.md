@@ -66,6 +66,8 @@ No authentic logo/photos found. Wordmark + graphics are original (proposal). Sto
 
 GitHub Actions `.github/workflows/deploy.yml` (lint → build → Playwright → Pages). Base path `/tojoko-demo/`, `VITE_FORM_MODE=demo`, `VITE_ALLOW_INDEXING=false`. Repo-local git identity `samijturunen01 <308068629+samijturunen01@users.noreply.github.com>`. Local preview port **4336** (`node scripts/serve-dist.mjs 4336`).
 
+**Status: deployed and verified 24.11.2026.** CI run: lint, build and 92 Playwright tests passed before publishing. Live checks: all 7 routes 200 with `noindex, nofollow` and unique titles, unknown URLs → branded 404 with status 404, robots.txt + sitemap + OG image served. Full Playwright suite against the live URL (`LIVE_URL=https://samijturunen01.github.io npm test`): 92 passed, 4 skipped (device-specific).
+
 ## Production readiness (if the customer buys)
 
 Confirm facts and services (CONTENT_SOURCES "Requires customer confirmation") · approve or replace the wordmark · domain/DNS + HTTPS (`VITE_BASE_PATH=/`, `SITE_URL`) · Apps Script + reCAPTCHA (BACKEND_INTEGRATION.md) · privacy notice · consented analytics (CONVERSION_MEASUREMENT.md) · `VITE_ALLOW_INDEXING=true` · authentic photos (IMAGE_REPLACEMENT_LIST.md) · link the site from the Google Business Profile.
